@@ -75,10 +75,6 @@ body {
   }
 }
 
-
-
-
-
 @keyframes blink {
   50% {
     opacity: 0.5;
@@ -97,12 +93,12 @@ body {
 
 .loader::after,
 .loader::before {
-  content: '';  
+  content: "";
   box-sizing: border-box;
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #FFF;
+  background: #7c0be5;
   position: absolute;
   left: 0;
   top: 0;
@@ -123,4 +119,3 @@ body {
     opacity: 0;
   }
 }
-

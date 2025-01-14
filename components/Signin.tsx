@@ -58,7 +58,6 @@ const SignIn = () => {
       }
     }
     setLoading(false);
-    console.log("it reaches ", result);
     if (result?.ok && result.url) {
       router.push("/home");
     }

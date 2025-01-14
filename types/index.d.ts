@@ -1,3 +1,4 @@
+import { Document } from "mongoose";
 
 declare interface FeatureCardProps {
   head: string;
@@ -7,3 +8,4 @@ declare interface LoadingContextType {
   isLoading: boolean;
   setLoading: (isLoading: boolean) => void;
 }
+

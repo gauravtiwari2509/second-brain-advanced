@@ -1,10 +1,11 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { Document, Schema, model, models } from "mongoose";
 
-export interface User extends Document {
+interface IUser extends Document {
   username: string;
   password: string;
 }
-const UserSchema: Schema<User> = new Schema(
+
+const UserSchema: Schema<IUser> = new Schema(
   {
     username: {
       type: String,
@@ -20,7 +21,5 @@ const UserSchema: Schema<User> = new Schema(
   { timestamps: true }
 );
 
-const UserModel =
-  (mongoose.models.User as mongoose.Model<User>) ||
-  mongoose.model<User>("User", UserSchema);
-export default UserModel;
+// Check if the model already exists to avoid overwriting
+export const UserModel = models.Users || model<IUser>("Users", UserSchema);

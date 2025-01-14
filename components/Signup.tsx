@@ -43,7 +43,6 @@ const SignUp = () => {
         password,
       });
 
-      console.log("consoling res ", res);
       toast({
         title: "Sign Up Successful!",
         description: `Welcome, ${data.username}!`,
@@ -51,9 +50,9 @@ const SignUp = () => {
 
       // Redirect to home or login page
       router.push("/signin");
-    } catch (error) {
+    } catch (error: any) {
       toast({
-        title: "Sign Up Failed",
+        title: error.response.data.error as string | "Sign Up Failed",
         description: "An error occurred while signing up.",
         variant: "destructive",
       });

@@ -27,14 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <SessionWrapper>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    >
+        <SessionWrapper>
           <LoadingProvider>{children}</LoadingProvider>
           <Toaster />
-        </body>
-      </SessionWrapper>
+        </SessionWrapper>
+      </body>
     </html>
   );
 }
