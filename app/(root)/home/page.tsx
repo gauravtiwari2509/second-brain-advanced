@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import PrimaryButton from "@/components/Buttons/PrimaryButton";
+import Content from "@/components/MainCont/Content";
 import { Redirect } from "@/components/Redirect";
 import { getServerSession } from "next-auth";
 
@@ -12,8 +12,7 @@ export default async function Home() {
 
   return (
     <>
-      <h1>Homepage</h1>
-      <PrimaryButton />
+      <Content />
     </>
   );
 }

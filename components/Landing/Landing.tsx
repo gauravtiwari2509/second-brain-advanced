@@ -6,7 +6,7 @@ import Footer from "../Footer";
 const Landing = () => {
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         <Banner />
         <Features />
         <Footer />

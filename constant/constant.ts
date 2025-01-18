@@ -24,3 +24,13 @@ export const features = [
       "Users can group links into different categories or folders for better organization.",
   },
 ];
+export const contentTypes = [
+  "document",
+  "social-media",
+  "web",
+  "video",
+  "article",
+  "image",
+  "audio",
+  "other",
+];

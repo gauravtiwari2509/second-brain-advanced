@@ -1,4 +1,4 @@
-import { Document, model, Schema, Types } from "mongoose";
+import { Document, model, models, Schema, Types } from "mongoose";
 type ContentType =
   | "image"
   | "video"
@@ -67,4 +67,5 @@ const contentSchema = new Schema<IContent>(
     timestamps: true,
   }
 );
-export const ContentModel = model<IContent>("content", contentSchema);
+export const ContentModel =
+  models.content || model<IContent>("content", contentSchema);

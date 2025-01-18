@@ -4,6 +4,7 @@ import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import { LoadingProvider } from "@/context/loadingContext";
+import { AddContentModalProvider } from "@/context/AddContentContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +30,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
+      >
         <SessionWrapper>
-          <LoadingProvider>{children}</LoadingProvider>
-          <Toaster />
+          <LoadingProvider>
+            <AddContentModalProvider>
+              {children}
+              <Toaster />
+            </AddContentModalProvider>
+          </LoadingProvider>
         </SessionWrapper>
       </body>
     </html>

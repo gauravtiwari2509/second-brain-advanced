@@ -1,6 +1,6 @@
-import { Document, model, Schema } from "mongoose";
-interface ITag extends Document{
-    title:string;
+import { Document, model, models, Schema } from "mongoose";
+interface ITag extends Document {
+  title: string;
 }
 const TagSchema = new Schema<ITag>(
   {
@@ -15,4 +15,4 @@ const TagSchema = new Schema<ITag>(
   }
 );
 
-export const TagModel = model<ITag>("Tags", TagSchema);
+export const TagModel = models.Tags || model<ITag>("Tags", TagSchema);

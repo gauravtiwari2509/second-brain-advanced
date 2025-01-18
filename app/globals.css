@@ -119,3 +119,14 @@ body {
     opacity: 0;
   }
 }
+
+.banner {
+  box-shadow: 0 50px 70px 10px #683389;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+/* .navbar {
+  box-shadow: -15px -15px 700px 5px #683389;
+} */
+/* Disable text selection for any specific element */

@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, models, Schema } from "mongoose";
 
 interface ILink extends Document {
   url: string;
@@ -18,4 +18,4 @@ const LinkSchema: Schema<ILink> = new Schema(
   { timestamps: true }
 );
 
-export const LinkModel = model<ILink>("Links", LinkSchema);
+export const LinkModel = models.Links || model<ILink>("Links", LinkSchema);

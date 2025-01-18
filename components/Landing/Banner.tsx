@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 const Banner = () => {
   const titleRef = useRef(null);
   const headRef = useRef(null);
@@ -35,30 +36,41 @@ const Banner = () => {
       rotate: 360,
       repeat: -1,
       yoyo: true,
-      borderRadius: "50%",
       backgroundColor: "purple",
     });
   }, []);
   //learn later for cleanup
 
   return (
-    <div className="w-full h-[100vh] bg-gray-600 flex flex-col justify-center items-center relative">
-      <div ref={boxRef} className="w-24 h-24 bg-purple-200"></div>
+    <div
+      className="w-full h-[100vh] bg-black flex flex-col justify-center items-center relative max-sm:pb-16  overflow-hidden z-40
+    banner
+    "
+    >
+      <Image
+        src="/assets/Gradient.svg"
+        width={0}
+        height={0}
+        alt="image"
+        className="w-[100vw] h-full pointer-events-none absolute bottom-[-45vh]"
+      />
+      <div ref={boxRef} className="w-24 h-24 bg-purple-200 rounded-full "></div>
+      <div></div>
       <div className="w-full flex flex-col justify-center items-center gap-5">
         <span
           ref={headRef}
           className="uppercase text-5xl font-semibold md:text-8xl md:font-medium text-purple-600"
         >
-          second brain
+          second <span className="text-white">brain</span>
         </span>
         <span
           ref={titleRef}
-          className="capitalize text-xl sm:text-2xl md:text-3xl md:font-thin"
+          className="capitalize text-purple-50 text-xl sm:text-2xl md:text-3xl md:font-thin"
         >
           A Link Management Platform
         </span>
       </div>
-      <div className="absolute bottom-[20vh] flex gap-10">
+      <div className="absolute bottom-[20vh] flex gap-10 max-sm:bottom-[25vh]">
         <Button
           asChild
           className="bg-purple-700  text-white text-xl hover:bg-purple-900 rounded-md px-4 py-6 md:text-2xl md:font-semibold"

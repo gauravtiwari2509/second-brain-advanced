@@ -16,7 +16,7 @@ const Features = () => {
     });
   }, []);
   return (
-    <div className="w-full min-h-[120vh] bg-black px-4 py-6 box flex justify-center items-center">
+    <div className="w-full min-h-[120vh] bg-black px-4 py-6 box flex justify-center items-center  feature">
       <div
         ref={ref}
         className="flex flex-wrap justify-center items-center gap-8"

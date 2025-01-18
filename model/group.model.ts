@@ -1,10 +1,19 @@
-import { model, Schema } from "mongoose";
-interface IGroup {}
+import { model, models, Schema, Types } from "mongoose";
+interface IGroup {
+  name: string;
+  userId: Schema.Types.ObjectId;
+  subGroups?: Types.ObjectId[];
+}
+
 const GroupScheme = new Schema<IGroup>(
   {
     name: {
       type: String,
       required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "Users",
     },
     subGroups: [
       {
@@ -17,4 +26,6 @@ const GroupScheme = new Schema<IGroup>(
     timestamps: true,
   }
 );
-export const GroupModel = model<IGroup>("Groups", GroupScheme);
+
+export const GroupModel =
+  models?.Groups || model<IGroup>("Groups", GroupScheme);

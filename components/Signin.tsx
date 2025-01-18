@@ -1,15 +1,9 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { signInSchema } from "@/schemas/signInSchema";
@@ -21,8 +15,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ToastAction } from "@/components/ui/toast";
 
+
 const SignIn = () => {
   const router = useRouter();
+
   const { toast } = useToast();
   const { isLoading, setLoading } = useLoading();
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -68,47 +64,52 @@ const SignIn = () => {
       <div className="w-full h-screen flex justify-center items-center bg-gray-600">
         {isLoading && <Loader />}
         <div className="w-fit h-fit py-10 px-10 md:px-16 flex flex-col gap-5 justify-center items-center border border-purple-950 rounded-2xl bg-gray-purple-600 shadow-xl duration-300 hover:shadow-2xl hover:shadow-purple-800 shadow-purple-800">
-          <span className="capitalize text-2xl font-bold  text-purple-400">
-            welcome back
+          <span className="capitalize text-2xl font-bold text-purple-400">
+            Welcome Back
           </span>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
+              {/* Username Field */}
+              <Controller
                 name="username"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Username</FormLabel>
-                    <Input {...field} />
+                    <Input {...field} required />
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
+
+              {/* Password Field */}
+              <Controller
                 name="password"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
-                    <Input type="password" {...field} />
+                    <Input type="password" required {...field} />
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              {/* Submit Button */}
               <Button className="w-full" type="submit">
                 Sign In
               </Button>
             </form>
             <Separator />
             <span>
-              not registered yet?{" "}
+              Not registered yet?{" "}
               <Link href="/signup" className="text-purple-300 underline">
-                register
+                Register
               </Link>
             </span>
           </Form>
         </div>
-      </div>{" "}
+      </div>
     </>
   );
 };
