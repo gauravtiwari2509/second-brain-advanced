@@ -3,32 +3,44 @@ import React from "react";
 import ContentCard from "./ContentCard";
 import { useContent } from "@/context/ContentContext";
 import { ObjectId } from "mongodb";
+import { useLoading } from "@/context/loadingContext";
+import Loader from "./Loader";
+
 const ContentDisplayBox = () => {
   const { copyContent, deleteContent } = useContent();
+  const { isLoading } = useLoading();
+
   const deleteLink = async (id: ObjectId) => {
     deleteContent(id);
   };
-  return copyContent.length > 0 ? (
-    <div className="w-full flex flex-wrap justify-center items-center gap-x-6 gap-y-6 mt-8 overflow-y-scroll ">
-      {copyContent.map((content) => {
-        return (
-          <ContentCard
-            key={content._id}
-            title={content.title}
-            url={content.url}
-            note={content?.notes}
-            tags={content.tags}
-            timestamp={content.createdAt}
-            type={content.type}
-            deleteLink={() => {
-              deleteLink(content._id);
-            }}
-          />
-        );
-      })}
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <div className="w-full mt-8">
+      {copyContent.length > 0 ? (
+        <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-6 overflow-y-scroll">
+          {copyContent.map((content) => (
+            <ContentCard
+              key={content._id}
+              title={content.title}
+              url={content.url}
+              note={content?.notes}
+              tags={content.tags}
+              timestamp={content.createdAt}
+              type={content.type}
+              deleteLink={() => {
+                deleteLink(content._id);
+              }}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center">No content available</div>
+      )}
     </div>
-  ) : (
-    <span className="mt-[20vh]">no content available!</span>
   );
 };
 

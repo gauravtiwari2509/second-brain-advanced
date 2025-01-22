@@ -3,7 +3,7 @@ import React from "react";
 const DeleteModal = ({ setDeleteModalVisible, onDelete, text }: any) => {
   return (
     <div
-      className="absolute top-0 left-0 h-screen w-screen inset-0 bg-black bg-opacity-50 flex items-center justify-center modal"
+      className="absolute z-50 top-0 left-0 h-screen w-screen inset-0 bg-black bg-opacity-50 flex items-center justify-center modal"
       style={{
         backdropFilter: "blur(10px)",
       }}

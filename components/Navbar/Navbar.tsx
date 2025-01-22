@@ -4,25 +4,32 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useAddContentModal } from "@/context/AddContentContext";
-import { useContent } from "@/context/ContentContext"; // Import useContent hook
+import { useContent } from "@/context/ContentContext";
+import ChatBox from "../ChatBox";
+import { useGroups } from "@/context/GroupContext";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const { setAddingContent } = useAddContentModal();
-  const { setSelectedContent } = useContent(); // Access setSelectedContent from context
-  const [isFilterVisible, setIsFilterVisible] = useState(false); // State for showing filter options
+  const { setSelectedContent, copyContent } = useContent();
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [aiChat, setAiChat] = useState(false);
+  const [sharedLink, setSharedLink] = useState<string | null>(null);
+  const { groups } = useGroups();
 
-  const filterRef = useRef<HTMLDivElement | null>(null); // Ref for the filter modal
+  const filterRef = useRef<HTMLDivElement | null>(null);
+  const { toast } = useToast();
 
   const handleSearchIconClick = () => {
     setIsInputVisible(!isInputVisible);
   };
 
   const handleFilterIconClick = () => {
-    setIsFilterVisible(!isFilterVisible); // Toggle the filter options visibility
+    setIsFilterVisible(!isFilterVisible);
   };
 
-  // Content types for the filter
   const contentTypes: any = [
     "All Content",
     "image",
@@ -35,112 +42,189 @@ const Navbar = () => {
     "other",
   ];
 
-  // Close the filter modal when clicking outside
   useEffect(() => {
-    // Handler for clicks outside the modal
     const handleClickOutside = (event: MouseEvent) => {
       if (
         filterRef.current &&
         !filterRef.current.contains(event.target as Node)
       ) {
-        setIsFilterVisible(false); // Close filter if clicked outside
+        setIsFilterVisible(false);
       }
     };
 
-    // Attach the event listener
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Clean up the event listener on component unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  async function generateLink() {
+    try {
+      const res = await axios.post("/api/link");
+      if (res.status === 200) {
+        await getLink();
+        toast({
+          title: "your sharable link created successfully",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "error whilte  generating link",
+      });
+    }
+  }
+  useEffect(() => {
+    getLink();
+  }, []);
+  async function getLink() {
+    try {
+      const res = await axios.get("/api/link");
+      const baseurl = "http://localhost:3000/";
+      const finalLink = `${baseurl}brain/${res.data.hash}`;
+      if (res.status == 200) {
+        setSharedLink(finalLink);
+      }
+      // console.log(sharedLink);
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "error while fetching link",
+      });
+    }
+  }
+  const deleteSharedLink = async () => {
+    try {
+      const res = await axios.delete("/api/link");
+      if (res.status === 200) {
+        setSharedLink(null);
+        toast({
+          title: "link deleted successfully",
+        });
+      }
+    } catch (error) {}
+  };
   return (
-    <div className="w-[50vw] h-fit py-2 rounded-full bg-gray-600 px-10 flex justify-center items-center gap-5 ">
-      <Image
-        src="/assets/icon/aiIcon.png"
-        alt="add group"
-        width={30}
-        height={25}
-        className="cursor-pointer"
-      />
-      <Button className="bg-gray-600">
-        <Image
-          src="/assets/icon/filterIcon.svg"
-          width={30}
-          height={30}
-          alt="filter icon"
-          className="cursor-pointer"
-          onClick={handleFilterIconClick}
-        />
-      </Button>
-
-      {isInputVisible && (
-        <Input
-          autoFocus
-          className="w-1/2  text-sm text-gray-100  rounded-full border-none bg-black transition-all ease-in-out "
-          placeholder="Search..."
+    <>
+      {aiChat && (
+        <ChatBox
+          closeModal={() => setAiChat(false)}
+          groups={JSON.stringify(groups)}
+          links={JSON.stringify(copyContent)}
         />
       )}
-
-      {!isInputVisible ? (
+      <div className="w-[50vw] h-fit py-2 rounded-full bg-gray-600 px-10 flex justify-center items-center gap-5 ">
         <Image
-          src="/assets/icon/searchIcon.svg"
+          src="/assets/icon/aiIcon.png"
+          alt="add group"
+          width={30}
+          height={25}
+          className="cursor-pointer"
+          onClick={() => setAiChat(true)}
+        />
+        <Button className="bg-gray-600">
+          <Image
+            src="/assets/icon/filterIcon.svg"
+            width={30}
+            height={30}
+            alt="filter icon"
+            className="cursor-pointer"
+            onClick={handleFilterIconClick}
+          />
+        </Button>
+
+        {isInputVisible && (
+          <Input
+            autoFocus
+            className="w-1/2  text-sm text-gray-100  rounded-full border-none bg-black transition-all ease-in-out "
+            placeholder="Search..."
+          />
+        )}
+
+        {!isInputVisible ? (
+          <Image
+            src="/assets/icon/searchIcon.svg"
+            width={30}
+            height={30}
+            alt="search icon"
+            className="cursor-pointer"
+            onClick={handleSearchIconClick}
+          />
+        ) : (
+          <Image
+            src="/assets/icon/crossIcon.svg"
+            width={30}
+            height={30}
+            alt="search icon"
+            className="cursor-pointer "
+            onClick={handleSearchIconClick}
+          />
+        )}
+        <Image
+          src="/assets/icon/addIcon.svg"
           width={30}
           height={30}
-          alt="search icon"
+          alt="add content"
           className="cursor-pointer"
-          onClick={handleSearchIconClick}
+          onClick={() => {
+            setAddingContent(true);
+          }}
         />
-      ) : (
-        <Image
-          src="/assets/icon/crossIcon.svg"
-          width={30}
-          height={30}
-          alt="search icon"
-          className="cursor-pointer"
-          onClick={handleSearchIconClick}
-        />
-      )}
-      <Image
-        src="/assets/icon/addIcon.svg"
-        width={30}
-        height={30}
-        alt="add content"
-        className="cursor-pointer"
-        onClick={() => {
-          setAddingContent(true);
-        }}
-      />
-      <Image
-        src="/assets/icon/shareIcon.svg"
-        width={30}
-        height={30}
-        alt="share icon"
-        className="cursor-pointer"
-      />
-
-      {isFilterVisible && (
-        <div
-          ref={filterRef} // Set the reference for the filter modal
-          className="absolute top-16 bg-gray-600 rounded-lg shadow-lg w-48 py-2 z-50"
-        >
-          {contentTypes.map((type: any) => (
-            <div
-              key={type}
-              className="px-4 py-1 text-white cursor-pointer hover:bg-gray-500"
+        {!sharedLink ? (
+          <Image
+            src="/assets/icon/shareIcon.svg"
+            width={30}
+            height={30}
+            alt="share icon"
+            className="cursor-pointer"
+            onClick={generateLink}
+          />
+        ) : (
+          <span className="flex gap-2 bg-gray-500 py-1 px-2 rounded-2xl">
+            <Image
+              src="/assets/icon/copy.svg"
+              width={28}
+              height={28}
+              alt="share icon"
+              className="cursor-pointer"
               onClick={() => {
-                setSelectedContent(type);
-                setIsFilterVisible(false);
+                navigator.clipboard.writeText(sharedLink);
+                toast({
+                  title: "sharedLink copied successfully!",
+                });
               }}
-            >
-              {type}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+            />
+            <Image
+              src="/assets/icon/delete.svg"
+              width={28}
+              height={28}
+              alt="delete icon"
+              className="cursor-pointer"
+              onClick={deleteSharedLink}
+            />
+          </span>
+        )}
+
+        {isFilterVisible && (
+          <div
+            ref={filterRef}
+            className="absolute top-16 bg-gray-600 rounded-lg shadow-lg w-48 py-2 z-50"
+          >
+            {contentTypes.map((type: any) => (
+              <div
+                key={type}
+                className="px-4 py-1 text-white cursor-pointer hover:bg-gray-500"
+                onClick={() => {
+                  setSelectedContent(type);
+                  setIsFilterVisible(false);
+                }}
+              >
+                {type}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

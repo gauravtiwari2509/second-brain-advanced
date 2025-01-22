@@ -1,12 +1,12 @@
 import { model, models, Schema } from "mongoose";
 
-interface ILink extends Document {
-  url: string;
+export interface ILink extends Document {
+  hashId: string;
   UserId: Schema.Types.ObjectId;
 }
 const LinkSchema: Schema<ILink> = new Schema(
   {
-    url: {
+    hashId: {
       type: String,
       required: true,
     },

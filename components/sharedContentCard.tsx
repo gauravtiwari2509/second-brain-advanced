@@ -2,20 +2,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import DeleteModal from "./DeleteModal";
 import { useToast } from "@/hooks/use-toast";
 import ChatBox from "./ChatBox";
 
-const ContentCard = ({
+const SharedContentCard = ({
   title,
   url,
   note,
   tags,
   timestamp,
   type,
-  deleteLink,
 }: any) => {
-  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
   const [aiInteraction, setAiInteraction] = useState(false);
   const { toast } = useToast();
 
@@ -75,13 +72,6 @@ const ContentCard = ({
 
   return (
     <>
-      {isDeleteModalVisible && (
-        <DeleteModal
-          text={`Do you want to delete this link?`}
-          setDeleteModalVisible={setDeleteModalVisible}
-          onDelete={deleteLink}
-        />
-      )}
       {aiInteraction && (
         <ChatBox
           closeModal={() => setAiInteraction(false)}
@@ -93,7 +83,6 @@ const ContentCard = ({
             tags,
             timestamp,
             type,
-            deleteLink,
           })}
         />
       )}
@@ -133,23 +122,6 @@ const ContentCard = ({
                 });
               }}
             />
-            <Image
-              src="/assets/icon/edit.svg"
-              alt="add group"
-              width={20}
-              height={20}
-              className="cursor-pointer"
-            />
-            <Image
-              src="/assets/icon/delete.svg"
-              alt="add group"
-              width={20}
-              height={20}
-              className="cursor-pointer"
-              onClick={() => {
-                setDeleteModalVisible(true);
-              }}
-            />
           </div>
         </div>
         <p className="px-2 w-full break-words text-justify italic">{note}</p>
@@ -167,4 +139,4 @@ const ContentCard = ({
   );
 };
 
-export default ContentCard;
+export default SharedContentCard;

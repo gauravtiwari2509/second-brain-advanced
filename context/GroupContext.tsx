@@ -14,6 +14,8 @@ interface GroupContextType {
   groups: Group[];
   fetchGroups: () => void;
   deleteGroup: (groupId: ObjectId) => void;
+  selectedGroup: ObjectId | "All Content";
+  setSelectedGroupFun: (id: "All Content" | ObjectId) => void;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
@@ -22,7 +24,13 @@ export const GroupProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [groups, setGroups] = useState<Group[]>([]);
-
+  const [selectedGroup, setSelectedGroup] = useState<"All Content" | ObjectId>(
+    "All Content"
+  );
+  const setSelectedGroupFun = (id: "All Content" | ObjectId) => {
+    setSelectedGroup(id);
+    console.log(id);
+  };
   const fetchGroups = async () => {
     try {
       const response = await axios.get("/api/groups");
@@ -45,7 +53,15 @@ export const GroupProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   return (
-    <GroupContext.Provider value={{ groups, fetchGroups, deleteGroup }}>
+    <GroupContext.Provider
+      value={{
+        groups,
+        fetchGroups,
+        deleteGroup,
+        selectedGroup,
+        setSelectedGroupFun,
+      }}
+    >
       {children}
     </GroupContext.Provider>
   );

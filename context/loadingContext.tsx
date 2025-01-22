@@ -1,5 +1,4 @@
 "use client";
-import { LoadingContextType } from "@/types";
 import { createContext, useState, useContext, ReactNode } from "react";
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);

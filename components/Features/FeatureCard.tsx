@@ -56,7 +56,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ head, description }) => {
           transform: "translateZ(75px)",
           transformStyle: "preserve-3d",
         }}
-        className="absolute inset-4 flex flex-col items-center justify-evenly rounded-xl bg-gray-600 shadow-lg p-2"
+        className="absolute inset-2 flex flex-col items-center justify-evenly rounded-xl bg-gray-600 shadow-lg p-2"
       >
         <span className="text-3xl font-semibold text-blue-200 text-center">
           {head}

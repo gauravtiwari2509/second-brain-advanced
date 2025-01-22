@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { ObjectId } from "mongodb";
 import { useLoading } from "./loadingContext";
+import { useGroups } from "./GroupContext";
 
 type ContentType =
   | "image"
@@ -27,6 +28,7 @@ interface IContent {
 }
 
 interface ContentContextType {
+  contents: IContent[];
   fetchContents: () => void;
   copyContent: IContent[];
   selectedContent: ContentType | "All Content";
@@ -41,12 +43,13 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const { selectedGroup } = useGroups();
+  const { setLoading } = useLoading();
   const [contents, setContents] = useState<IContent[]>([]);
   const [copyContent, setCopyContent] = useState<IContent[]>([]);
   const [selectedContent, setSelectedContent] = useState<
     ContentType | "All Content"
   >("All Content");
-  const { setLoading } = useLoading();
 
   const fetchContents = async () => {
     try {
@@ -56,9 +59,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({
         console.log("no content found", response);
         return;
       }
-     
-        setContents(response.data.data);
-      
+
+      setContents(response.data.data);
     } catch (error) {
       console.error("Error fetching contents", error);
     } finally {
@@ -93,6 +95,19 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({
       setCopyContent(data);
     }
   };
+  const filterContentFun2 = () => {
+    if (selectedGroup === "All Content") {
+      setCopyContent(contents);
+    } else {
+      const data = contents.filter((item) => {
+        return item.group._id === selectedGroup;
+      });
+      setCopyContent(data);
+    }
+  };
+  useEffect(() => {
+    filterContentFun2();
+  }, [selectedGroup]);
 
   useEffect(() => {
     filterContentFun();
@@ -105,6 +120,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <ContentContext.Provider
       value={{
+        contents,
         fetchContents,
         copyContent,
         selectedContent,
