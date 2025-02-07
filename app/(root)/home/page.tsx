@@ -1,6 +1,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import Content from "@/components/MainCont/Content";
 import { Redirect } from "@/components/Redirect";
+import { ContentProvider } from "@/context/ContentContext";
+import { GroupProvider } from "@/context/GroupContext";
 import { getServerSession } from "next-auth";
 
 export default async function Home() {
@@ -12,7 +14,11 @@ export default async function Home() {
 
   return (
     <>
-      <Content />
+      <GroupProvider>
+        <ContentProvider>
+          <Content />
+        </ContentProvider>
+      </GroupProvider>
     </>
   );
 }

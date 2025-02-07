@@ -47,9 +47,9 @@ const SharedContentCard = ({
         return (
           <div className="iframe-container">
             <iframe
-              className="w-auto aspect-video"
+              className="aspect-video w-full"
               src={`https://www.youtube.com/embed/${videoId}`}
-              title="YouTube video player"
+              title="YouTube video player "
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
@@ -86,9 +86,9 @@ const SharedContentCard = ({
           })}
         />
       )}
-      <div className="child md:w-[24vw] min-h-[25vh] flex flex-col gap-3 text-gray-200 bg-gray-600 rounded-lg border border-purple-950 shadow-sm duration-300 hover:shadow-md hover:shadow-purple-00 shadow-purple-600 hover:bg-gray-puple-600 px-2 relative">
-        <div className="flex items-center justify-between py-1">
-          <div className="flex gap-2 justify-center items-center">
+      <div className="child w-[80vw] sm:w-[37vw] md:w-[35vw] lg:w-[24vw] min-h-[25vh] m-1 overflow-hidden flex flex-col gap-3 text-gray-200 bg-gray-600 rounded-lg border border-purple-950 shadow-sm duration-300 hover:shadow-md hover:shadow-purple-00 shadow-purple-600 hover:bg-gray-puple-600 px-2 relative">
+        <div className="flex items-center gap-1 justify-between py-2">
+          <div className="flex gap-2 justify-center items-center  max-w-[60%]">
             <Image
               src={`/assets/icon/${type}.svg`}
               alt="add group"
@@ -106,7 +106,7 @@ const SharedContentCard = ({
               alt="add group"
               width={20}
               height={10}
-              className="cursor-pointer"
+              className="cursor-pointer max-md:w-15 max-md:h-auto"
               onClick={() => setAiInteraction(true)}
             />
             <Image
@@ -114,21 +114,37 @@ const SharedContentCard = ({
               alt="add group"
               width={20}
               height={20}
-              className="cursor-pointer"
+              className="cursor-pointer max-md:w-15 max-md:h-auto"
               onClick={() => {
-                navigator.clipboard.writeText(url);
-                toast({
-                  title: "URL copied successfully!",
-                });
+                navigator.clipboard
+                  .writeText(url) // "over http this navigator.clipboard is not supported"
+                  .then(() => {
+                    toast({
+                      title: "URL copied successfully!",
+                    });
+                  })
+                  .catch((error) => {
+                    console.error("Error copying text: ", error);
+                    toast({
+                      title: "Failed to copy URL",
+                    });
+                  });
               }}
             />
           </div>
         </div>
         <p className="px-2 w-full break-words text-justify italic">{note}</p>
         <div className="px-2 w-full">{renderEmbed(url, type)}</div>
-        <div className="flex gap-2 px-2">
+        <div className="flex flex-wrap gap-2 px-2">
           {tags.map((tag: any) => {
-            return <span key={tag._id}>#{tag.title}</span>;
+            return (
+              <span
+                key={tag._id}
+                className="text-sm text-blue-500 hover:underline"
+              >
+                #{tag.title}
+              </span>
+            );
           })}
         </div>
         <span className="font-mono px-2 ">

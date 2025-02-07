@@ -113,9 +113,9 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({
     filterContentFun();
   }, [selectedContent, contents]);
 
-  useEffect(() => {
-    fetchContents();
-  }, []);
+  // useEffect(() => {
+  //   fetchContents();
+  // }, []);
 
   return (
     <ContentContext.Provider
