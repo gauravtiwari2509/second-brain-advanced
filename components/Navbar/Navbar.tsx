@@ -79,7 +79,7 @@ const Navbar = () => {
   async function getLink() {
     try {
       const res = await axios.get("/api/link");
-      const baseurl = "http://localhost:3000/";
+      const baseurl = "https://second-brain-advanced.vercel.app/";
       const finalLink = `${baseurl}brain/${res.data.hash}`;
       if (res.status == 200) {
         setSharedLink(finalLink);
