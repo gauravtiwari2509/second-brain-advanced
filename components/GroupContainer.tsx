@@ -161,13 +161,13 @@ const GroupContainer = () => {
                   {group.name}
                 </span>
                 <span>({numItem(group._id)})</span>
-                <Image
+                {/* <Image
                   src="/assets/icon/addIcon.svg"
                   alt="add"
                   width={15}
                   height={15}
                   className="hover:bg-gray-600  "
-                />
+                /> */}
 
                 <Image
                   src="/assets/icon/delete.svg"

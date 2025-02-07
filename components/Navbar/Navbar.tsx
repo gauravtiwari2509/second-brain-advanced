@@ -112,25 +112,26 @@ const Navbar = () => {
           links={JSON.stringify(copyContent)}
         />
       )}
-      <div className="w-[50vw] h-fit py-2 rounded-full bg-gray-600 px-10 flex justify-center items-center gap-5 ">
+      <div
+        className={`w-[50vw] max-sm:w-[95vw] h-fit py-2 rounded-full bg-gray-600 px-10 flex justify-center items-center gap-5  max-sm:gap-4`}
+      >
         <Image
           src="/assets/icon/aiIcon.png"
           alt="add group"
           width={30}
           height={25}
-          className="cursor-pointer"
+          className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
           onClick={() => setAiChat(true)}
         />
-        <Button className="bg-gray-600">
-          <Image
-            src="/assets/icon/filterIcon.svg"
-            width={30}
-            height={30}
-            alt="filter icon"
-            className="cursor-pointer"
-            onClick={handleFilterIconClick}
-          />
-        </Button>
+
+        <Image
+          src="/assets/icon/filterIcon.svg"
+          width={30}
+          height={30}
+          alt="filter icon"
+          className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
+          onClick={handleFilterIconClick}
+        />
 
         {isInputVisible && (
           <Input
@@ -146,7 +147,7 @@ const Navbar = () => {
             width={30}
             height={30}
             alt="search icon"
-            className="cursor-pointer"
+            className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
             onClick={handleSearchIconClick}
           />
         ) : (
@@ -155,7 +156,7 @@ const Navbar = () => {
             width={30}
             height={30}
             alt="search icon"
-            className="cursor-pointer "
+            className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
             onClick={handleSearchIconClick}
           />
         )}
@@ -164,7 +165,7 @@ const Navbar = () => {
           width={30}
           height={30}
           alt="add content"
-          className="cursor-pointer"
+          className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
           onClick={() => {
             setAddingContent(true);
           }}
@@ -175,17 +176,17 @@ const Navbar = () => {
             width={30}
             height={30}
             alt="share icon"
-            className="cursor-pointer"
+            className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
             onClick={generateLink}
           />
         ) : (
-          <span className="flex gap-2 bg-gray-500 py-1 px-2 rounded-2xl">
+          <span className="flex justify-center items-center gap-2 bg-gray-500 py-1 px-2   rounded-2xl">
             <Image
               src="/assets/icon/copy.svg"
               width={28}
               height={28}
               alt="share icon"
-              className="cursor-pointer"
+              className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
               onClick={() => {
                 navigator.clipboard.writeText(sharedLink);
                 toast({
@@ -198,7 +199,7 @@ const Navbar = () => {
               width={28}
               height={28}
               alt="delete icon"
-              className="cursor-pointer"
+              className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
               onClick={deleteSharedLink}
             />
           </span>

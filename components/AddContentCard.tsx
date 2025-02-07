@@ -21,15 +21,14 @@ import { useLoading } from "@/context/loadingContext";
 import Loader from "./Loader";
 import { useGroups } from "@/context/GroupContext";
 import { useContent } from "@/context/ContentContext";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
-const label_input_style = "flex max-sm:flex-col items-center justify-between";
+const label_input_style = "flex items-center justify-between gap-3 ";
 const input_style = "text-sm px-2 py-1 h-fit border-none bg-gray-600 w-[80%]";
 
 const AddContentCard = () => {
   const { setAddingContent } = useAddContentModal();
   const { toast } = useToast();
-  const { isLoading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
   const { groups } = useGroups();
   const { fetchContents } = useContent();
   const form = useForm<z.infer<typeof contentSchema>>({
@@ -69,28 +68,29 @@ const AddContentCard = () => {
 
   return (
     <div
-      className="w-screen h-screen z-50 absolute flex justify-center items-center "
+      className="fixed w-screen h-screen z-50 flex justify-center items-center "
       style={{
         backdropFilter: "blur(30px)",
       }}
     >
-      {isLoading && <Loader />}
-      <div className="md:w-[40vw] w-fit h-fit py-10 px-10 md:px-16 flex flex-col gap-5 justify-center items-center border border-purple-950 rounded-2xl bg-gray-purple-600 shadow-xl duration-300 hover:shadow-2xl hover:shadow-purple-800 shadow-purple-800">
+      <div className=" w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[50vw] xl:w-[40vw] h-fit py-10 px-10 max-mobile:px-4 md:px-16 flex flex-col gap-5 justify-center items-center border border-purple-950 rounded-2xl bg-gray-purple-600 shadow-xl duration-300 hover:shadow-2xl hover:shadow-purple-800 shadow-purple-800">
         <span className="capitalize text-2xl font-bold text-purple-400">
           Add Your Link
         </span>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6 w-[100%] px-3 flex flex-col justify-center items-center"
+            className="space-y-6 w-[100%] px-3 flex flex-col justify-center items-center max-mobile:w-full"
           >
             <FormField
               name="title"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="w-[70%]">
+                <FormItem className="w-[70%] max-mobile:w-full">
                   <div className={`${label_input_style}`}>
-                    <FormLabel className="text-lg capitalize">Title</FormLabel>
+                    <FormLabel className="text-lg max-mobile:text-base capitalize">
+                      Title
+                    </FormLabel>
                     <Input {...field} required className={`${input_style}`} />
                   </div>
                   <FormMessage className="sm:ml-[20%]" />
@@ -102,9 +102,11 @@ const AddContentCard = () => {
               name="url"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="w-[70%]">
+                <FormItem className="w-[70%] max-mobile:w-full">
                   <div className={`${label_input_style}`}>
-                    <FormLabel className="text-lg capitalize">URL</FormLabel>
+                    <FormLabel className="text-lg max-mobile:text-base  capitalize">
+                      URL
+                    </FormLabel>
                     <Input {...field} required className={`${input_style}`} />
                   </div>
                   <FormMessage className="sm:ml-[20%]" />
@@ -116,9 +118,11 @@ const AddContentCard = () => {
               name="notes"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="w-[70%]">
+                <FormItem className="w-[70%] max-mobile:w-full">
                   <div className={`${label_input_style}`}>
-                    <FormLabel className="text-lg capitalize">Notes</FormLabel>
+                    <FormLabel className="text-lg max-mobile:text-base capitalize">
+                      Notes
+                    </FormLabel>
                     <Input {...field} className={`${input_style}`} />
                   </div>
                   <FormMessage className="sm:ml-[20%]" />
@@ -130,9 +134,11 @@ const AddContentCard = () => {
               name="type"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="w-[70%]">
+                <FormItem className="w-[70%] max-mobile:w-full">
                   <div className={`${label_input_style}`}>
-                    <FormLabel className="text-lg capitalize">Type</FormLabel>
+                    <FormLabel className="text-lg max-mobile:text-base capitalize">
+                      Type
+                    </FormLabel>
                     <select
                       {...field}
                       name="type"
@@ -159,9 +165,11 @@ const AddContentCard = () => {
               name="group"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="w-[70%]">
+                <FormItem className="w-[70%] max-mobile:w-full">
                   <div className={`${label_input_style}`}>
-                    <FormLabel className="text-lg capitalize">Group</FormLabel>
+                    <FormLabel className="text-lg max-mobile:text-base  capitalize">
+                      Group
+                    </FormLabel>
                     <select
                       {...field}
                       name="group"
@@ -193,9 +201,11 @@ const AddContentCard = () => {
               name="tags"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="w-[70%]">
+                <FormItem className="w-[70%] max-mobile:w-full">
                   <div className={`${label_input_style}`}>
-                    <FormLabel className="text-lg capitalize">Tags</FormLabel>
+                    <FormLabel className="text-lg max-mobile:text-base capitalize">
+                      Tags
+                    </FormLabel>
                     <Input {...field} className={`${input_style}`} />
                   </div>
                   <FormMessage className="sm:ml-[20%]" />

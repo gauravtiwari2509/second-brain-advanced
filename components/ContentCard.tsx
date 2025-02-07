@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import DeleteModal from "./DeleteModal";
 import { useToast } from "@/hooks/use-toast";
-import ChatBox from "./ChatBox";
+import { useInteractingAiModal } from "@/context/AiInteractionContext";
 
 const ContentCard = ({
   title,
@@ -16,7 +16,7 @@ const ContentCard = ({
   deleteLink,
 }: any) => {
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [aiInteraction, setAiInteraction] = useState(false);
+  const { setIsInteractingAi, setAiData } = useInteractingAiModal();
   const { toast } = useToast();
 
   function formatTimestamp(timestamp: string) {
@@ -50,7 +50,7 @@ const ContentCard = ({
         return (
           <div className="iframe-container">
             <iframe
-              className="w-auto aspect-video"
+              className="w-full aspect-video"
               src={`https://www.youtube.com/embed/${videoId}`}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -82,24 +82,10 @@ const ContentCard = ({
           onDelete={deleteLink}
         />
       )}
-      {aiInteraction && (
-        <ChatBox
-          closeModal={() => setAiInteraction(false)}
-          groups="none"
-          links={JSON.stringify({
-            title,
-            url,
-            note,
-            tags,
-            timestamp,
-            type,
-            deleteLink,
-          })}
-        />
-      )}
-      <div className="child md:w-[24vw] min-h-[25vh] flex flex-col gap-3 text-gray-200 bg-gray-600 rounded-lg border border-purple-950 shadow-sm duration-300 hover:shadow-md hover:shadow-purple-00 shadow-purple-600 hover:bg-gray-puple-600 px-2 relative">
-        <div className="flex items-center justify-between py-1">
-          <div className="flex gap-2 justify-center items-center">
+
+      <div className="child w-[80vw] sm:w-[37vw] md:w-[35vw] lg:w-[24vw] min-h-[25vh] m-1 overflow-hidden flex flex-col gap-3 text-gray-200 bg-gray-600 rounded-lg border border-purple-950 shadow-sm duration-300 hover:shadow-md hover:shadow-purple-00 shadow-purple-600 hover:bg-gray-puple-600 px-2 relative">
+        <div className="flex items-center gap-1 justify-between py-2">
+          <div className="flex gap-2 justify-center items-center  max-w-[60%]">
             <Image
               src={`/assets/icon/${type}.svg`}
               alt="add group"
@@ -111,41 +97,61 @@ const ContentCard = ({
               {title}
             </span>
           </div>
-          <div className="flex h-full gap-2">
+          <div className="flex flex-wrap h-full gap-2 justify-end items-center">
             <Image
               src="/assets/icon/aiIcon.png"
-              alt="add group"
+              alt="ai"
               width={20}
               height={10}
-              className="cursor-pointer"
-              onClick={() => setAiInteraction(true)}
+              className="cursor-pointer max-md:w-15 max-md:h-auto"
+              onClick={() => {
+                setAiData({
+                  title,
+                  url,
+                  note,
+                  tags,
+                  timestamp,
+                  type,
+                  deleteLink,
+                });
+                setIsInteractingAi(true);
+              }}
             />
             <Image
               src="/assets/icon/copy.svg"
               alt="add group"
               width={20}
               height={20}
-              className="cursor-pointer"
+              className="cursor-pointer max-md:w-15 max-md:h-auto"
               onClick={() => {
-                navigator.clipboard.writeText(url);
-                toast({
-                  title: "URL copied successfully!",
-                });
+                navigator.clipboard
+                  .writeText(url) // "over http this navigator.clipboard is not supported"
+                  .then(() => {
+                    toast({
+                      title: "URL copied successfully!",
+                    });
+                  })
+                  .catch((error) => {
+                    console.error("Error copying text: ", error);
+                    toast({
+                      title: "Failed to copy URL",
+                    });
+                  });
               }}
             />
             <Image
               src="/assets/icon/edit.svg"
-              alt="add group"
+              alt="add group "
               width={20}
               height={20}
-              className="cursor-pointer"
+              className="cursor-pointer max-md:w-15 max-md:h-auto"
             />
             <Image
               src="/assets/icon/delete.svg"
               alt="add group"
               width={20}
               height={20}
-              className="cursor-pointer"
+              className="cursor-pointer max-md:w-15 max-md:h-auto"
               onClick={() => {
                 setDeleteModalVisible(true);
               }}
@@ -154,11 +160,19 @@ const ContentCard = ({
         </div>
         <p className="px-2 w-full break-words text-justify italic">{note}</p>
         <div className="px-2 w-full">{renderEmbed(url, type)}</div>
-        <div className="flex gap-2 px-2">
+        <div className="flex flex-wrap gap-2 px-2">
           {tags.map((tag: any) => {
-            return <span key={tag._id}>#{tag.title}</span>;
+            return (
+              <span
+                key={tag._id}
+                className="text-sm text-blue-500 hover:underline"
+              >
+                #{tag.title}
+              </span>
+            );
           })}
         </div>
+
         <span className="font-mono px-2 ">
           Added on {formatTimestamp(timestamp)}
         </span>
