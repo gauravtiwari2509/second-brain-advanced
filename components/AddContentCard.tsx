@@ -181,9 +181,11 @@ const AddContentCard = () => {
                           <option
                             key={group._id}
                             value={group.name}
-                            className="text-sm px-2 py-1 h-fit border-none bg-gray-600"
+                            className="text-sm px-2 py-1 h-fit border-none max-mobile:text-sm bg-gray-600"
                           >
-                            {group.name}
+                            {group.name.length > 18
+                              ? `${group.name.slice(0, 18)}...`
+                              : group.name}
                           </option>
                         ))
                       ) : (

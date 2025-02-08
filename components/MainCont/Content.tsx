@@ -10,6 +10,8 @@ import Loader from "../Loader";
 import { useInteractingAiModal } from "@/context/AiInteractionContext";
 import ChatBox from "../ChatBox";
 import { useContent } from "@/context/ContentContext";
+import MobGroupContainer from "../MobGroupContainer";
+import Footer from "../Footer";
 
 const Content = () => {
   const { addingContent } = useAddContentModal();
@@ -17,9 +19,9 @@ const Content = () => {
   const { isInteractingAi, setIsInteractingAi, aiData } =
     useInteractingAiModal();
   const { fetchContents } = useContent();
-  useEffect(()=>{
-    fetchContents()
-  },[])
+  useEffect(() => {
+    fetchContents();
+  }, []);
   return (
     <>
       {isLoading && <Loader />}
@@ -47,7 +49,11 @@ const Content = () => {
 
         <div className="flex flex-col w-[80vw] min-h-screen items-center pt-5 ml-[20vw] max-sm:ml-0 max-sm:w-[100vw]">
           <Navbar />
+          <div className="sm:hidden self-start mx-[10vw] max-sm:my-[2vh]">
+            <MobGroupContainer />
+          </div>
           <ContentDisplayBox />
+          <Footer />
         </div>
       </div>
     </>

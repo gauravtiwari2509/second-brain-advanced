@@ -117,6 +117,14 @@ const SignUp = () => {
                 Sign In
               </Link>
             </span>
+            <span
+              className="text-gray-100 underline cursor-pointer"
+              onClick={() => {
+                router.push("/");
+              }}
+            >
+              home
+            </span>
           </Form>
         </div>
       </div>

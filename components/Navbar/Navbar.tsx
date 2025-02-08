@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useAddContentModal } from "@/context/AddContentContext";
 import { useContent } from "@/context/ContentContext";
@@ -9,6 +8,8 @@ import ChatBox from "../ChatBox";
 import { useGroups } from "@/context/GroupContext";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
+import UserMenu from "../UserMenu";
 
 const Navbar = () => {
   const [isInputVisible, setIsInputVisible] = useState(false);
@@ -18,10 +19,11 @@ const Navbar = () => {
   const [aiChat, setAiChat] = useState(false);
   const [sharedLink, setSharedLink] = useState<string | null>(null);
   const { groups } = useGroups();
+  const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
 
   const filterRef = useRef<HTMLDivElement | null>(null);
   const { toast } = useToast();
-
+  const session = useSession();
   const handleSearchIconClick = () => {
     setIsInputVisible(!isInputVisible);
   };
@@ -29,7 +31,9 @@ const Navbar = () => {
   const handleFilterIconClick = () => {
     setIsFilterVisible(!isFilterVisible);
   };
-
+  const handleUsernameClick = () => {
+    setIsUserMenuVisible((prev) => !prev);
+  };
   const contentTypes: any = [
     "All Content",
     "image",
@@ -123,7 +127,6 @@ const Navbar = () => {
           className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
           onClick={() => setAiChat(true)}
         />
-
         <Image
           src="/assets/icon/filterIcon.svg"
           width={30}
@@ -132,7 +135,6 @@ const Navbar = () => {
           className="cursor-pointer max-sm:w-[20px] max-sm:h-[auto]"
           onClick={handleFilterIconClick}
         />
-
         {isInputVisible && (
           <Input
             autoFocus
@@ -140,7 +142,6 @@ const Navbar = () => {
             placeholder="Search..."
           />
         )}
-
         {!isInputVisible ? (
           <Image
             src="/assets/icon/searchIcon.svg"
@@ -204,7 +205,15 @@ const Navbar = () => {
             />
           </span>
         )}
-
+        <span
+          className="rounded-full text-xs w-6 h-6 flex items-center justify-center bg-gray-200 uppercase sm:hidden cursor-pointer"
+          onClick={handleUsernameClick}
+        >
+          {session?.data?.user?.username?.[0] || "p"}
+        </span>
+        {isUserMenuVisible && (
+          <UserMenu onClose={() => setIsUserMenuVisible(false)} />
+        )}
         {isFilterVisible && (
           <div
             ref={filterRef}
