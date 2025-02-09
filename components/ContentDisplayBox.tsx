@@ -19,7 +19,7 @@ const ContentDisplayBox = () => {
   }
 
   return (
-    <div className="w-full sm:mt-8">
+    <div className="w-full sm:mt-8 mb-14">
       {copyContent.length > 0 ? (
         <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-6 overflow-y-scroll">
           {copyContent.map((content) => (

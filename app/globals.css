@@ -3,12 +3,16 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: var(--font-poppins), sans-serif;
   background-color: black;
   color: white;
 }
 * {
   box-sizing: border-box;
+}
+.group-container {
+  font-family: var(--font-kanit), sans-serif;
 }
 @layer base {
   :root {

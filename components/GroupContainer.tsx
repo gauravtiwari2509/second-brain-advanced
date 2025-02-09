@@ -84,7 +84,7 @@ const GroupContainer = () => {
           onDelete={deleteGroups}
         />
       )}
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full group-container">
         <div className="flex justify justify-between items-center px-4 py-2">
           <span className="text-md text-gray-100">Groups</span>
           <Button
@@ -148,7 +148,7 @@ const GroupContainer = () => {
             return (
               <div
                 key={group._id}
-                className={`flex w-full items-center justify-between px-2 rounded-md overflow-hidden  bg-gray-500 py-1 ${
+                className={`flex w-full items-center justify-between px-2 rounded-md overflow-hidden bg-gray-500 py-1 ${
                   selectedGroup === group._id ? "bg-gray-800" : null
                 }`}
               >
@@ -156,7 +156,7 @@ const GroupContainer = () => {
                   onClick={() => {
                     setSelectedGroupFun(group._id);
                   }}
-                  className="rounded px-2 text-sm w-[70%] overflow-hidden whitespace-nowrap text-ellipsis"
+                  className="rounded px-2 text-sm w-[75%] overflow-hidden whitespace-nowrap text-ellipsis"
                 >
                   {group.name}
                 </span>

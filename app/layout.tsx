@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Kalnia_Glaze,
+  Kanit,
+  Poppins,
+} from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,6 +22,23 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+const kalniaGlaze = Kalnia_Glaze({
+  variable: "--font-kalnia-glaze",
+  subsets: ["latin"],
+  weight: ["100", "400", "700"],
+});
+
+const kanit = Kanit({
+  variable: "--font-kanit",
+  subsets: ["latin"],
+  weight: ["100", "400", "700"],
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["100", "400", "700"],
+});
 
 export const metadata: Metadata = {
   title: "link management app",
@@ -30,7 +53,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${kalniaGlaze.variable} ${kanit.variable} ${poppins.variable} antialiased`}
       >
         <SessionWrapper>
           <InteractingAiModalProvider>

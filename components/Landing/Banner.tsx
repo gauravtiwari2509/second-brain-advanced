@@ -65,7 +65,7 @@ const Banner = () => {
         </span>
         <span
           ref={titleRef}
-          className="capitalize text-purple-50 text-xl sm:text-2xl md:text-3xl md:font-thin"
+          className="capitalize text-purple-50 text-xl sm:text-2xl md:text-3xl md:font-light"
         >
           A Link Management Platform
         </span>
@@ -73,13 +73,13 @@ const Banner = () => {
       <div className="absolute bottom-[20vh] flex gap-10 max-sm:bottom-[25vh]">
         <Button
           asChild
-          className="bg-purple-700  text-white text-xl hover:bg-purple-900 rounded-md px-4 py-6 md:text-2xl md:font-semibold"
+          className="bg-purple-700  text-white text-xl hover:bg-purple-900 rounded-md px-4 py-6 md:text-2xl md:font-medium"
         >
           <Link href="/signup">Register</Link>
         </Button>
         <Button
           onClick={() => signIn()}
-          className="bg-purple-700 text-white text-xl hover:bg-purple-900 rounded-md px-4 py-6 md:text-2xl md:font-semibold"
+          className="bg-purple-700 text-white text-xl hover:bg-purple-900 rounded-md px-4 py-6 md:text-2xl md:font-medium"
         >
           Login
         </Button>

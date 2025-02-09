@@ -141,11 +141,21 @@ const MobGroupContainer = () => {
               <option key={group._id} value={group._id}>
                 {group.name.length > 25
                   ? `${group.name.slice(0, 25)}...`
-                  : group.name}
+                  : group.name}{" "}
               </option>
             );
           })}
         </select>
+        {selectedGroup !== "All Content" ? (
+          <span>
+            {
+              //@ts-ignore
+              numItem(selectedGroup)
+            }
+          </span>
+        ) : (
+          <span>{contents.length}</span>
+        )}
         {selectedGroup !== "All Content" && (
           <Image
             src="/assets/icon/delete.svg"
