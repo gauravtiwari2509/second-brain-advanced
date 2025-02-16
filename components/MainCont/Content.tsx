@@ -28,7 +28,7 @@ const Content = () => {
       {isInteractingAi && aiData && (
         <ChatBox
           closeModal={() => setIsInteractingAi(false)}
-          groups="none"
+          groups=""
           links={JSON.stringify({
             title: aiData.title,
             url: aiData.url,
@@ -36,7 +36,6 @@ const Content = () => {
             tags: aiData.tags,
             timestamp: aiData.timestamp,
             type: aiData.type,
-            deleteLink: aiData.deleteLink,
           })}
         />
       )}

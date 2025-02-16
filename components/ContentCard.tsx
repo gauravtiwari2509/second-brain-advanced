@@ -112,7 +112,6 @@ const ContentCard = ({
                   tags,
                   timestamp,
                   type,
-                  deleteLink,
                 });
                 setIsInteractingAi(true);
               }}

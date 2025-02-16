@@ -15,7 +15,6 @@ interface AiData {
   tags: any[];
   timestamp: string;
   type: string;
-  deleteLink: any;
 }
 
 const AiInteraction = createContext<AiInteractionType | null>(null);

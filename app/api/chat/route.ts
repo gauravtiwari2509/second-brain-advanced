@@ -7,7 +7,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export async function POST(req: NextRequest) {
   try {
-    const { data, prompt }: { data: string; prompt: string } = await req.json();
+    const { data }: { data: any } = await req.json();
 
     if (!data) {
       return NextResponse.json(
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const messageContent = `${data}\n${prompt}`;
+    const messageContent = `${data}`;
 
     const result = await model.generateContent(messageContent);
     const responseString = result.response.text();
